@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.0.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'ru.itlab'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '25'
+}
+
+jar {
+    enabled = false
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    wiremockVersion = '3.13.2'
+    springdocVersion = '3.1.0'
+    testContainersVersion = '1.21.4'
+    okhttpVersion = '5.5.0'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-data-r2dbc-test'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVersion}"
+    implementation 'org.postgresql:r2dbc-postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.springframework.boot:spring-boot-starter-flyway'
+    runtimeOnly 'org.flywaydb:flyway-database-postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.springframework:spring-jdbc'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.springframework.boot:spring-boot-webtestclient'
+    testImplementation 'io.projectreactor:reactor-test'
+
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+    testImplementation "org.testcontainers:r2dbc:${testContainersVersion}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${okhttpVersion}"
+    testImplementation "org.wiremock:wiremock-standalone:${wiremockVersion}"
+}
+
+bootBuildImage {
+    imageName = "${project.name}"
+    environment = ["BP_JVM_VERSION": "25.*"]
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
