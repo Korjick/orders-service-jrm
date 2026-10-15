@@ -2,7 +2,7 @@
 
 A reactive RESTful microservice for creating customer orders and retrieving user order history.
 
-Refer to: https://github.com/Korjick/menu-service
+Part of: https://github.com/topics/korjick-java-microservice-restaurant
 
 ## Tech Stack
 
