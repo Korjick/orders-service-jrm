@@ -19,10 +19,12 @@ public abstract class BaseDBDependencyTest {
 
     static final PostgreSQLContainer<?> container =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"))
-            .withReuse(true)
-            .withDatabaseName("test_database")
-            .withUsername("user")
-            .withPassword("password");
+                    .withReuse(true)
+                    .withDatabaseName("test_database")
+                    .withUsername("user")
+                    .withPassword("password")
+                    .withCommand("-c wal_level=logical -c max_wal_senders=1 -c max_replication_slots=1");
+
 
     static {
         container.start();

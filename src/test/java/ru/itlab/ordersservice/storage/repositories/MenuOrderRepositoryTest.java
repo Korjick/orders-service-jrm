@@ -13,7 +13,9 @@ import reactor.test.StepVerifier;
 import ru.itlab.ordersservice.BaseDBDependencyTest;
 import ru.itlab.ordersservice.config.R2dbcConfig;
 import ru.itlab.ordersservice.storage.model.MenuOrder;
+import ru.itlab.ordersservice.storage.model.OrderStatus;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static ru.itlab.ordersservice.testdata.TestConstants.*;
 
 
@@ -27,7 +29,7 @@ public class MenuOrderRepositoryTest extends BaseDBDependencyTest {
     @Test
     void findAllByCreatedBy_returnsCorrectSortedByDateAsc() {
         var pageRequest = PageRequest.of(0, 2)
-                .withSort(Sort.by(Sort.Direction.ASC,"createdAt"));
+                .withSort(Sort.by(Sort.Direction.ASC, "createdAt"));
         Flux<MenuOrder> orders = repository.findAllByCreatedBy(USERNAME_ONE, pageRequest);
         StepVerifier.create(orders)
                 .expectNextMatches(order ->
@@ -57,10 +59,30 @@ public class MenuOrderRepositoryTest extends BaseDBDependencyTest {
     @Test
     void findAllByCreatedBy_returnsEmptyListWhenUserHasNoOrders() {
         var pageRequest = PageRequest.of(0, 10)
-                .withSort(Sort.by(Sort.Direction.ASC,"createdAt"));
+                .withSort(Sort.by(Sort.Direction.ASC, "createdAt"));
         Flux<MenuOrder> orders = repository.findAllByCreatedBy("unknown user", pageRequest);
         StepVerifier.create(orders)
                 .expectNextCount(0)
                 .verifyComplete();
+    }
+
+    @Test
+    void updateStatusById_updatesStatusOfExistingOrder() {
+        var order = repository.findAll().blockFirst();
+        var orderId = order.getId();
+
+        repository.updateStatusById(orderId, OrderStatus.ACCEPTED).block();
+        var updated = repository.findById(orderId).block();
+        assertThat(updated.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
+        assertThat(updated.getUpdatedAt()).isAfter(order.getUpdatedAt());
+    }
+
+    @Test
+    void updateStatusById_doesNothingIfOrderNotExists() {
+        Long orderId = 1000L;
+
+        repository.updateStatusById(orderId, OrderStatus.ACCEPTED).block();
+        var updated = repository.findById(orderId).block();
+        assertThat(updated).isNull();
     }
 }
