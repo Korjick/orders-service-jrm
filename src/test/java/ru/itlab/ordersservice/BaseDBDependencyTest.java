@@ -36,6 +36,8 @@ public abstract class BaseDBDependencyTest {
         System.setProperty("spring.flyway.user", container.getUsername());
         System.setProperty("spring.flyway.password", container.getPassword());
         System.setProperty("external.default-timeout", DEFAULT_TIMEOUT_STR);
+        System.setProperty("eureka.client.enabled", "false");
+        System.setProperty("spring.cloud.loadbalancer.enabled", "false");
     }
 
     @BeforeEach
