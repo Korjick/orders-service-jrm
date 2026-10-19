@@ -17,8 +17,8 @@ import ru.itlab.ordersservice.TestWebClientConfig;
 import ru.itlab.ordersservice.storage.model.MenuOrder;
 import ru.itlab.ordersservice.storage.model.OrderStatus;
 import ru.itlab.ordersservice.storage.repositories.MenuOrderRepository;
-import ru.javaops.cloudjava.OrderDispatchStatus;
-import ru.javaops.cloudjava.OrderDispatchedEvent;
+import ru.itlab.OrderDispatchStatus;
+import ru.itlab.OrderDispatchedEvent;
 
 import java.time.Duration;
 

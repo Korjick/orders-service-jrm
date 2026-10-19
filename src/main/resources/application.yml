@@ -6,6 +6,8 @@ server:
     idle-timeout: 20s
 
 spring:
+  reactor:
+    context-propagation: auto
   application:
     name: orders-service
   lifecycle:
@@ -49,6 +51,7 @@ spring:
       auto-offset-reset: earliest
       enable-auto-commit: false
     listener:
+      observation-enabled: true
       ack-mode: manual
 
 eureka:
@@ -85,14 +88,13 @@ management:
       exposure:
         include: "*"
   tracing:
-    enabled: true
     sampling:
       probability: 1.0
     propagation:
       type: b3
-  zipkin:
-    tracing:
-      endpoint: ${external.zipkin-endpoint}
+    export:
+      zipkin:
+        endpoint: ${external.zipkin-endpoint}
 
 springdoc:
   api-docs:

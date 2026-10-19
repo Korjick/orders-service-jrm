@@ -55,8 +55,7 @@ dependencies {
     implementation "org.apache.avro:avro:${avroVersion}"
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.boot:spring-boot-starter-webclient'
-    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+    implementation 'org.springframework.boot:spring-boot-starter-zipkin'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.springframework.boot:spring-boot-starter-flyway'
     runtimeOnly 'org.flywaydb:flyway-database-postgresql'

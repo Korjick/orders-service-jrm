@@ -10,7 +10,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import ru.itlab.ordersservice.storage.model.OrderStatus;
 import ru.itlab.ordersservice.storage.repositories.MenuOrderRepository;
-import ru.javaops.cloudjava.OrderDispatchedEvent;
+import ru.itlab.OrderDispatchedEvent;
 
 import java.time.Duration;
 

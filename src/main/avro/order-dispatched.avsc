@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "OrderDispatchedEvent",
-  "namespace": "ru.javaops.cloudjava",
+  "namespace": "ru.itlab",
   "fields": [
     {
       "name": "orderId",
