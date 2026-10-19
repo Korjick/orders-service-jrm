@@ -5,12 +5,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.Network;
 import org.testcontainers.kafka.ConfluentKafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 import ru.itlab.ordersservice.BaseDBDependencyTest;
 import ru.itlab.ordersservice.SchemaRegistryContainer;
+import ru.itlab.ordersservice.TestWebClientConfig;
 import ru.itlab.ordersservice.storage.model.MenuOrder;
 import ru.itlab.ordersservice.storage.model.OrderStatus;
 import ru.itlab.ordersservice.storage.repositories.MenuOrderRepository;
@@ -21,6 +24,8 @@ import java.time.Duration;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@ActiveProfiles("test")
+@Import(TestWebClientConfig.class)
 @SpringBootTest
 class KafkaOrderDispatchListenerTest extends BaseDBDependencyTest {
 
